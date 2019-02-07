@@ -8,9 +8,74 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lobster">
 <style>
+
+html { 
+  background: url(bg_officers.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+.font_style {
+  font-family: "Lobster", serif;
+  font-size:20px;
+}
+.generete_button {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 14px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  outline: none;
+  color: #fff;
+  background-color: black;
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 9px #999;
+   -webkit-transition-duration: 0.4s; 
+  transition-duration: 0.4s;
+}
+
+.generete_button:hover {background-color: #ff1a1a}
+
+.generete_button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}
+.logout_button {
+ 
+  border: none;
+  color: white;
+
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; 
+  transition-duration: 0.4s;
+  cursor: pointer;
+    background-color: #47d147;
+  color: black;
+  border: 2px solid #555555;
+  border-radius: 15px;
+  width: 100px;
+  height:30px;
+}
+
+
+
+.logout_button:hover {
+  background-color: #c2f0c2;
+  color: black;
+}
 .container {
 	position: relative;
+	
 }
 
 .topright {
@@ -20,31 +85,30 @@
 	font-size: 18px;
 }
 
-img {
-	width: 30%;
-	height: 30%;
-	/*      opacity: 0.3;  */
-}
+select{
 
-img {
-	width: 30%;
-	height: 30%;
-	/* 	max-width: 680px; */
-	padding-top: 60px;
-	padding-right: 20px;
-	padding-bottom: 10px;
-	padding-left: 10px;
-}
+width: 95%;
+border-radius: 20px;
+outline: none;
 
+}
 input[type=file] {
 	padding-top: 5px;
 	padding-right: 5px;
 	padding-bottom: 5px;
 	padding-left: 5px;
 	/* 	background: #2d2d2d; */
-	position: absolute;
+	
 	right: 150px;
 }
+
+
+img {
+	outline:none;
+
+}
+
+
 </style>
 <script>
 	var request = new XMLHttpRequest();
@@ -140,15 +204,20 @@ input[type=file] {
 
 
 	}
+	
 </script>
 
 <title>Assistance_Home_page</title>
 </head>
 <body>
-FS
 
-	<a href="logout_assistance.jsp">LOGOUT</a>
 
+	<a href="logout_assistance.jsp">
+	
+	<button class="logout_button"><b>LOGOUT</b></button>
+	</a>
+<br>
+<br>
 	<form action="Get_data_from_assistance" name="rules_break"
 		enctype="multipart/form-data" method="post">
 		<%!String state_q = "SELECT * FROM ememo.rules_break_state";
@@ -157,16 +226,21 @@ FS
 	String rules_q = "select rules_name from ememo.rules";
 	String vehicle_q = "SELECT upper(concat(vehicle_state,vehicle_city,vehicle_number)) as v FROM ememo.vehicle";%>
 
+<table border="0" align="center">
 
-		<input type="file" name="file" id="profile-img"
-			onchange="path_store_in_session()"> <br> <img src=""
-			id="profile-img-tag" width="200px" />
-		<script type="text/javascript">
+
+	<tr>
+
+			<td align="center" colspan="2">
+			<input type="file" name="file" id="profile-img"
+			onchange="path_store_in_session()">
+			
+			<script type="text/javascript">
     function readURL(input) {
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             
-            alert(reader);
+           // alert(reader);
             
             reader.onload = function (e) {
                 $('#profile-img-tag').attr('src', e.target.result);
@@ -178,8 +252,16 @@ FS
         readURL(this);
     });
 </script>
-
-		<%
+			
+			</td>
+			
+			<td rowspan="7">
+			<img src=""id="profile-img-tag" style="width: 380px;height: 350px;"  />
+			</td>
+	
+	</tr>
+	<tr>
+<%
 			PreparedStatement ps = null;
 			PreparedStatement ps1 = null;
 			PreparedStatement ps2 = null;
@@ -202,9 +284,12 @@ FS
 				ResultSet rs3 = ps3.executeQuery();
 				ResultSet rs4 = ps4.executeQuery();
 		%>
-		<p>
-
-			<br> <br> <br> Select Rules : <select
+			<td align="center" class="w3-xxxlarge font_style w3-lobster">
+			Select Rules :
+			</td>
+			
+			<td>
+			<select
 				onchange="hello()" name="rules_name">
 				<option value="-------">-------</option>
 				<%
@@ -216,8 +301,17 @@ FS
 					}
 				%>
 			</select>
-			<!-- 	*********************************************************		 -->
-			<br> <br> <br> Select Vehicle Number : <select
+			</td>
+	
+	</tr>
+	<tr>
+
+			<td align="center" class="w3-xxxlarge font_style w3-lobster">
+			Select Vehicle Number :
+			</td>
+			
+			<td>
+			<select
 				onchange="hello()" name="vehicle_number">
 				<option value="-------">-------</option>
 				<%
@@ -229,10 +323,17 @@ FS
 					}
 				%>
 			</select>
+			</td>
+	
+	</tr>
+	<tr>
 
-
-			<!-- 	*********************************************************		 -->
-			<br> <br> Select State : <select onchange="hello()"
+			<td align="center" class="w3-xxxlarge font_style w3-lobster">
+			Select State :
+			</td>
+			
+			<td>
+			<select onchange="hello()"
 				name="rules_break_state">
 				<option value="-------">-------</option>
 				<%
@@ -245,8 +346,17 @@ FS
 					}
 				%>
 			</select>
-			<!-- 	*********************************************************		 -->
-			<br> <br> <br> Select City : <select
+			</td>
+	
+	</tr>
+	<tr>
+
+			<td align="center" class="w3-xxxlarge font_style w3-lobster">
+			Select City :
+			</td>
+			
+			<td>
+			<select
 				onchange="hello()" name="rules_break_city">
 				<option value="-------">-------</option>
 				<%
@@ -258,8 +368,17 @@ FS
 					}
 				%>
 			</select>
-			<!-- 	*********************************************************		 -->
-			<br> <br> <br> Select Place : <select
+			</td>
+	
+	</tr>
+	<tr>
+
+			<td align="center" class="w3-xxxlarge font_style w3-lobster">
+			 Select Place :
+			</td>
+			
+			<td>
+			<select
 				onchange="hello()" name="rules_break_place">
 				<option value="-------">-------</option>
 				<%
@@ -271,19 +390,28 @@ FS
 					}
 				%>
 			</select>
-		</p>
-		<%
+			<%
 			} catch (SQLException sqe) {
 				out.println(sqe);
 			}
 		%>
-		<br /> <br> <input type="submit" value="SUBMITTT">
+			</td>
+	
+	</tr>
+	<tr>
+
+			<td>
+			
+			</td>
+			
+			<td align="center" >
+			<input type="submit" value="GENERATE MEMO" class="generete_button" style="margin-right:35px;">
+			</td>
+	
+	</tr>
+</table>
+
 	</form>
-
-
-
-
-
 
 
 
