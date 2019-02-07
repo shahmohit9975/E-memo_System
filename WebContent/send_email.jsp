@@ -35,9 +35,9 @@
 
 	<%
 		int memo_id = (int) session.getAttribute("memo_id");
-		String to = "shefalikshah76@gmail.com";//change accordingly  			// Receiver Email_id
+		String to = "shahmohit9975@gmail.com";//change accordingly  			// Receiver Email_id
 		final String user = "shahmohit9975@gmail.com";//change accordingly 	   // Sender Email_id 
-		final String password = "your_password";//change accordingly  
+		final String password = "your password";//change accordingly  
 
 		//1) get the session object     
 		Properties props = new Properties();
