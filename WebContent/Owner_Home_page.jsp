@@ -86,20 +86,11 @@ input[type=password]:focus {
 	%>
 	<form action="check_vehicle_number.jsp" method="post" class="container">
 		<div align="center">
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
-			<br>
+			<br> <br> <br> <br> <br> <br> <br>
+			<br> <br> <br> <br> <br> <br>
 			<table>
+
+
 				<tr>
 					<td><br> <b> Enter Vehicle Number :</b></td>
 					<td><br> <input type="text" name="vehicle_number"
@@ -109,11 +100,8 @@ input[type=password]:focus {
 				</tr>
 				<tr>
 					<td><br></td>
-					<td><br>
-					<br> <input type="submit" value="Check" class="btn_login">
-
-
-					</td>
+					<td><br> <br> <input type="submit" value="Check"
+						class="btn_login"></td>
 				</tr>
 
 			</table>
