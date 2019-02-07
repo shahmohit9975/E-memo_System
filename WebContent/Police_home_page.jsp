@@ -8,8 +8,69 @@
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <script
 	src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+<link rel="stylesheet"
+	href="https://fonts.googleapis.com/css?family=Lobster">
 
 <style>
+html {
+	background: url(bg_officers.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	-o-background-size: cover;
+	background-size: cover;
+}
+
+.generete_button {
+	display: inline-block;
+	padding: 10px 20px;
+	font-size: 14px;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	outline: none;
+	color: #fff;
+	background-color: black;
+	border: none;
+	border-radius: 15px;
+	box-shadow: 0 9px #999;
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
+}
+
+.generete_button:hover {
+	background-color: #ff1a1a
+}
+
+.generete_button:active {
+	background-color: #3e8e41;
+	box-shadow: 0 5px #666;
+	transform: translateY(4px);
+}
+
+.logout_button {
+	border: none;
+	color: white;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	-webkit-transition-duration: 0.4s;
+	transition-duration: 0.4s;
+	cursor: pointer;
+	background-color: #47d147;
+	color: black;
+	border: 2px solid #555555;
+	border-radius: 15px;
+	width: 100px;
+	height: 30px;
+}
+
+.logout_button:hover {
+	background-color: #c2f0c2;
+	color: black;
+}
+
 .container {
 	position: relative;
 }
@@ -19,6 +80,12 @@
 	top: 8px;
 	right: 16px;
 	font-size: 18px;
+}
+
+select {
+	width: 95%;
+	border-radius: 20px;
+	outline: none;
 }
 
 img {
@@ -35,6 +102,11 @@ img {
 	padding-right: 10px;
 	padding-bottom: 10px;
 	padding-left: 10px;
+}
+
+.font_style {
+	font-family: "Lobster", serif;
+	font-size: 20px;
 }
 
 input[type=file] {
@@ -134,10 +206,12 @@ input[type=file] {
 </head>
 <body>
 
-	<br>
 
 
-	<a href="logout_police.jsp">LOGOUT</a>
+
+	<a href="logout_police.jsp"><button class="logout_button">
+			<b>LOGOUT</b>
+		</button></a>
 
 	<form action="Get_data_from_police" name="rules_break"
 		enctype="multipart/form-data" method="post">
@@ -148,152 +222,203 @@ input[type=file] {
 	String vehicle_q = "SELECT upper(concat(vehicle_state,vehicle_city,vehicle_number)) as v FROM ememo.vehicle";%>
 
 
-		<input type="file" name="file" id="profile-img"
-			onchange="path_store_in_session()"> <br> <img src=""
-			id="profile-img-tag" width="200px" />
-		<script type="text/javascript">
-			function readURL(input) {
-				if (input.files && input.files[0]) {
-					var reader = new FileReader();
+		<table border="0" align="center">
 
-					reader.onload = function(e) {
-						$('#profile-img-tag').attr('src', e.target.result);
-					}
-					reader.readAsDataURL(input.files[0]);
+			<tr>
+
+
+				<td colspan="3" align="center"
+					class="w3-xxxlarge font_style w3-lobster"><input type="file"
+					name="file" id="profile-img" onchange="path_store_in_session()">
+
+					<script type="text/javascript">
+						function readURL(input) {
+							if (input.files && input.files[0]) {
+								var reader = new FileReader();
+
+								reader.onload = function(e) {
+									$('#profile-img-tag').attr('src',
+											e.target.result);
+								}
+								reader.readAsDataURL(input.files[0]);
+							}
+						}
+						$("#profile-img").change(function() {
+							readURL(this);
+						});
+					</script></td>
+
+				<td rowspan="9"><img src="" id="profile-img-tag"
+					style="width: 380px; height: 350px;" /></td>
+
+			</tr>
+			<tr>
+				<td align="center" class="w3-xxxlarge font_style w3-lobster">
+					<%
+						PreparedStatement ps = null;
+						PreparedStatement ps1 = null;
+						PreparedStatement ps2 = null;
+						PreparedStatement ps3 = null;
+						PreparedStatement ps3_1 = null;
+						PreparedStatement ps3_2 = null;
+						PreparedStatement ps4 = null;
+						try {
+							Class.forName(bean.Provider.DRIVER);
+
+							Connection con = DriverManager.getConnection(bean.Provider.CONNECTION_URL, bean.Provider.USERNAME,
+									bean.Provider.PASSWORD);
+							//state_q = "SELECT * FROM ememo.rules_break_state";
+							ps = con.prepareStatement(state_q);
+							ps1 = con.prepareStatement(city_q);
+							ps2 = con.prepareStatement(place_q);
+							ps3 = con.prepareStatement(rules_q);
+							ps3_1 = con.prepareStatement(rules_q);
+							ps3_2 = con.prepareStatement(rules_q);
+							ps4 = con.prepareStatement(vehicle_q);
+							ResultSet rs = ps.executeQuery();
+							ResultSet rs1 = ps1.executeQuery();
+							ResultSet rs2 = ps2.executeQuery();
+							ResultSet rs3 = ps3.executeQuery();
+							ResultSet rs3_1 = ps3_1.executeQuery();
+							ResultSet rs3_2 = ps3_2.executeQuery();
+							ResultSet rs4 = ps4.executeQuery();
+					%> Select Rules 1 :
+				</td>
+
+				<td><select onchange="hello()" name="rules_name_1">
+
+
+
+						<option value="-------">-------</option>
+						<%
+							while (rs3.next()) {
+									String fname = rs3.getString("rules_name");
+						%>
+						<option value="<%=fname%>" name="rules_name_1"><%=fname%></option>
+						<%
+							}
+						%>
+				</select></td>
+			</tr>
+			<tr>
+				<td align="center" class="w3-xxxlarge font_style w3-lobster">
+					Select Rules 2 :</td>
+
+				<td><select onchange="hello()" name="rules_name_2">
+						<option value="-------">-------</option>
+						<%
+							while (rs3_1.next()) {
+									String fname = rs3_1.getString("rules_name");
+						%>
+						<option value="<%=fname%>" name="rules_name_2"><%=fname%></option>
+						<%
+							}
+						%>
+				</select></td>
+
+
+
+			</tr>
+
+			<tr>
+				<td align="center" class="w3-xxxlarge font_style w3-lobster">
+					Select Rules 3 :</td>
+
+				<td><select onchange="hello()" name="rules_name_3">
+						<option value="-------">-------</option>
+						<%
+							while (rs3_2.next()) {
+									String fname = rs3_2.getString("rules_name");
+						%>
+						<option value="<%=fname%>" name="rules_name_3"><%=fname%></option>
+						<%
+							}
+						%>
+				</select></td>
+			</tr>
+			<!-- 	*********************************************************		 -->
+
+			<tr>
+				<td align="center" class="w3-xxxlarge font_style w3-lobster">
+					Select Vehicle Number :</td>
+				<td><select onchange="hello()" name="vehicle_number">
+						<option value="-------">-------</option>
+						<%
+							while (rs4.next()) {
+									String fname = rs4.getString("v");
+						%>
+						<option value="<%=fname%>" name="vehicle_no"><%=fname%></option>
+						<%
+							}
+						%>
+				</select></td>
+			</tr>
+
+
+			<!-- 	*********************************************************		 -->
+			<tr>
+				<td align="center" class="w3-xxxlarge font_style w3-lobster"></>Select
+					State :</td>
+
+				<td><select onchange="hello()" name="rules_break_state">
+						<option value="-------">-------</option>
+						<%
+							while (rs.next()) {
+
+									String fname = rs.getString("state");
+						%>
+						<option value="<%=fname%>" name="state"><%=fname%></option>
+						<%
+							}
+						%>
+				</select></td>
+			</tr>
+
+			<!-- 	*********************************************************		 -->
+
+			<tr>
+
+				<td align="center" class="w3-xxxlarge font_style w3-lobster">Select
+					City :</td>
+				<td><select onchange="hello()" name="rules_break_city">
+						<option value="-------">-------</option>
+						<%
+							while (rs1.next()) {
+									String fname = rs1.getString("city");
+						%>
+						<option value="<%=fname%>" name="city"><%=fname%></option>
+						<%
+							}
+						%>
+				</select></td>
+			</tr>
+			<!-- 	*********************************************************		 -->
+			<tr>
+				<td align="center" class="w3-xxxlarge font_style w3-lobster">Select
+					Place :</td>
+				<td><select onchange="hello()" name="rules_break_place">
+						<option value="-------">-------</option>
+						<%
+							while (rs2.next()) {
+									String fname = rs2.getString("place");
+						%>
+						<option value="<%=fname%>" name="place"><%=fname%></option>
+						<%
+							}
+						%>
+				</select></td>
+			</tr>
+			<%
+				} catch (SQLException sqe) {
+					out.println(sqe);
 				}
-			}
-			$("#profile-img").change(function() {
-				readURL(this);
-			});
-		</script>
-
-		<%
-			PreparedStatement ps = null;
-			PreparedStatement ps1 = null;
-			PreparedStatement ps2 = null;
-			PreparedStatement ps3 = null;
-			PreparedStatement ps3_1 = null;
-			PreparedStatement ps3_2 = null;
-			PreparedStatement ps4 = null;
-			try {
-				Class.forName(bean.Provider.DRIVER);
-
-				Connection con = DriverManager.getConnection(bean.Provider.CONNECTION_URL, bean.Provider.USERNAME,
-						bean.Provider.PASSWORD);
-				//state_q = "SELECT * FROM ememo.rules_break_state";
-				ps = con.prepareStatement(state_q);
-				ps1 = con.prepareStatement(city_q);
-				ps2 = con.prepareStatement(place_q);
-				ps3 = con.prepareStatement(rules_q);
-				ps3_1 = con.prepareStatement(rules_q);
-				ps3_2 = con.prepareStatement(rules_q);
-				ps4 = con.prepareStatement(vehicle_q);
-				ResultSet rs = ps.executeQuery();
-				ResultSet rs1 = ps1.executeQuery();
-				ResultSet rs2 = ps2.executeQuery();
-				ResultSet rs3 = ps3.executeQuery();
-				ResultSet rs3_1 = ps3_1.executeQuery();
-				ResultSet rs3_2 = ps3_2.executeQuery();
-				ResultSet rs4 = ps4.executeQuery();
-		%>
-		<p>
-
-			<br> <br> <br> Select Rules 1 : <select
-				onchange="hello()" name="rules_name_1">
-				<option value="-------">-------</option>
-				<%
-					while (rs3.next()) {
-							String fname = rs3.getString("rules_name");
-				%>
-				<option value="<%=fname%>" name="rules_name_1"><%=fname%></option>
-				<%
-					}
-				%>
-			</select> <br> <br> <br> Select Rules 2 : <select
-				onchange="hello()" name="rules_name_2">
-				<option value="-------">-------</option>
-				<%
-					while (rs3_1.next()) {
-							String fname = rs3_1.getString("rules_name");
-				%>
-				<option value="<%=fname%>" name="rules_name_2"><%=fname%></option>
-				<%
-					}
-				%>
-			</select> <br> <br> <br> Select Rules 3 : <select
-				onchange="hello()" name="rules_name_3">
-				<option value="-------">-------</option>
-				<%
-					while (rs3_2.next()) {
-							String fname = rs3_2.getString("rules_name");
-				%>
-				<option value="<%=fname%>" name="rules_name_3"><%=fname%></option>
-				<%
-					}
-				%>
-			</select>
-			<!-- 	*********************************************************		 -->
-			<br> <br> <br> Select Vehicle Number : <select
-				onchange="hello()" name="vehicle_number">
-				<option value="-------">-------</option>
-				<%
-					while (rs4.next()) {
-							String fname = rs4.getString("v");
-				%>
-				<option value="<%=fname%>" name="vehicle_no"><%=fname%></option>
-				<%
-					}
-				%>
-			</select>
-
-
-			<!-- 	*********************************************************		 -->
-			<br> <br> Select State : <select onchange="hello()"
-				name="rules_break_state">
-				<option value="-------">-------</option>
-				<%
-					while (rs.next()) {
-
-							String fname = rs.getString("state");
-				%>
-				<option value="<%=fname%>" name="state"><%=fname%></option>
-				<%
-					}
-				%>
-			</select>
-			<!-- 	*********************************************************		 -->
-			<br> <br> <br> Select City : <select
-				onchange="hello()" name="rules_break_city">
-				<option value="-------">-------</option>
-				<%
-					while (rs1.next()) {
-							String fname = rs1.getString("city");
-				%>
-				<option value="<%=fname%>" name="city"><%=fname%></option>
-				<%
-					}
-				%>
-			</select>
-			<!-- 	*********************************************************		 -->
-			<br> <br> <br> Select Place : <select
-				onchange="hello()" name="rules_break_place">
-				<option value="-------">-------</option>
-				<%
-					while (rs2.next()) {
-							String fname = rs2.getString("place");
-				%>
-				<option value="<%=fname%>" name="place"><%=fname%></option>
-				<%
-					}
-				%>
-			</select>
-		</p>
-		<%
-			} catch (SQLException sqe) {
-				out.println(sqe);
-			}
-		%>
-		<br /> <br> <input type="submit" value="SUBMITTT">
+			%>
+			<tr>
+				<td align="center" colspan="2"><input type="Generate Memo"
+					class="generete_button" value="SUBMITTT" /></td>
+			</tr>
+		</table>
+		</br> </br> </br> </br>
 	</form>
 </body>
 </html>
